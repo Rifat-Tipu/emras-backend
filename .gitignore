@@ -1,63 +1,29 @@
-# =========================
-# Maven / Spring Boot
-# =========================
-
+# ── Maven ─────────────────────────────────────────────────────────────────────
 target/
 *.jar
 *.war
 *.class
 
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-
-.mvn/timing.properties
-
-# Keep Maven Wrapper JAR tracked for team consistency
-# .mvn/wrapper/maven-wrapper.jar
-
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-# =========================
-# IDE Files
-# =========================
-
-# IntelliJ IDEA
+# ── IDE ───────────────────────────────────────────────────────────────────────
 .idea/
 *.iml
-
-# VS Code
+*.iws
+*.ipr
 .vscode/
-*.code-workspace
 
-# Eclipse
-.project
-.classpath
-
-# =========================
-# Environment / Secrets
-# =========================
-
-.env
-*.env
-
-# Production configs
-application-prod.properties
-
-# =========================
-# OS Files
-# =========================
-
+# ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 
-# =========================
-# Docker
-# =========================
+# ── Secrets — NEVER commit ────────────────────────────────────────────────────
+.env
+.env.local
+.env.dev
+.env.prod
+**/application-local.properties
+**/application-prod.properties
 
-docker-compose.override.yml
+# ── Safe to commit ────────────────────────────────────────────────────────────
+!.env.example
+!**/application-local.properties.example
+!**/application-prod.properties.example
