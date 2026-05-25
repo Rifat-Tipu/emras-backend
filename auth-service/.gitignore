@@ -1,3 +1,22 @@
+# ── Secrets — never commit ────────────────────────────────────────────────────
+src/main/resources/application-local.properties
+src/main/resources/application-prod.properties
+
+# ── Keep example templates ────────────────────────────────────────────────────
+!src/main/resources/application-local.properties.example
+!src/main/resources/application-prod.properties.example
+# ── Local environment secrets — NEVER commit these ──────────────────────
+.env
+.env.*
+!.env.example
+
+# Local properties files contain real credentials
+**/application-local.properties
+**/application-prod.properties
+
+# Keep example/template files (no real values)
+!**/application-local.properties.example
+
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
