@@ -1,0 +1,14 @@
+# Copy to application-local.properties and fill in real values
+jwt.secret=your_jwt_secret_here
+gateway.services.auth-service-url=http://localhost:8081
+gateway.services.user-service-url=http://localhost:8082
+gateway.services.product-service-url=http://localhost:8083
+gateway.services.inventory-service-url=http://localhost:8084
+gateway.services.order-service-url=http://localhost:8085
+gateway.services.payment-service-url=http://localhost:8086
+gateway.services.notification-service-url=http://localhost:8087
+gateway.services.delivery-service-url=http://localhost:8088
+gateway.services.ai-assistant-service-url=http://localhost:8089
+gateway.services.review-service-url=http://localhost:8090
+gateway.services.analytics-service-url=http://localhost:8091
+gateway.services.discount-service-url=http://localhost:8092
