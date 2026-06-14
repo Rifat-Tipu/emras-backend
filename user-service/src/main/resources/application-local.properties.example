@@ -1,0 +1,8 @@
+# Copy to application-local.properties and fill in real values
+spring.datasource.url=jdbc:postgresql://localhost:5432/your_db
+spring.datasource.username=your_user
+spring.datasource.password=your_password
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+spring.data.redis.password=your_redis_password
+spring.kafka.bootstrap-servers=localhost:29092
