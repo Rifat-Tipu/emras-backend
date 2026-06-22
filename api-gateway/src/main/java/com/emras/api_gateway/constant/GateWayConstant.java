@@ -23,6 +23,8 @@ public final class GateWayConstant {
             "/api/v1/auth/password/forgot",
             "/api/v1/auth/password/reset",
             "/api/v1/auth/oauth2",
+            "/api/v1/products",       // public browsing
+            "/api/v1/categories",     // public category list
             "/actuator",
             "/swagger-ui",
             "/v3/api-docs"

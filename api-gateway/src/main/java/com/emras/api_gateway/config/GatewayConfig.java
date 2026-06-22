@@ -31,4 +31,22 @@ public class GatewayConfig {
                 .before(BeforeFilterFunctions.uri(services.getAuthServiceUrl()))
                 .build();
     }
+    @Bean
+    public RouterFunction<ServerResponse> userServiceRoutes() {
+        return GatewayRouterFunctions.route("user_service_route")
+                .route(RequestPredicates.path("/api/v1/users/**"), HandlerFunctions.http())
+                .before(BeforeFilterFunctions.uri(services.getUserServiceUrl()))
+                .build();
+    }
+    @Bean
+    public RouterFunction<ServerResponse> productServiceRoutes() {
+        return GatewayRouterFunctions.route("product_service_route")
+                .route(RequestPredicates.path("/api/v1/products/**")
+                                .or(RequestPredicates.path("/api/v1/categories/**"))
+                                .or(RequestPredicates.path("/api/v1/admin/products/**"))
+                                .or(RequestPredicates.path("/api/v1/admin/categories/**")),
+                        HandlerFunctions.http())
+                .before(BeforeFilterFunctions.uri(services.getProductServiceUrl()))
+                .build();
+    }
 }

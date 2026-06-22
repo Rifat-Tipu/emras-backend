@@ -1,0 +1,21 @@
+package com.emras.product.dto.response;
+import com.emras.product.entity.Product;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
+public record ProductResponse(
+        Long                        id,
+        String                      nameEn,
+        String                      nameBn,
+        String                      descriptionEn,
+        String                      descriptionBn,
+        String                      slug,
+        BigDecimal                  price,
+        BigDecimal                  discountPrice,
+        Product.ProductStatus       status,
+        Boolean                     featured,
+        CategoryResponse            category,
+        List<ProductVariantResponse> variants,
+        List<ProductImageResponse>   images,
+        Instant                     createdAt
+) {}
