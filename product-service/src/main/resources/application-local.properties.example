@@ -1,7 +1,7 @@
 spring.datasource.url=jdbc:postgresql://localhost:5432/your_db
-spring.datasource.username=emras_user
-spring.datasource.password=emras_pass
+spring.datasource.username=
+spring.datasource.password=
 spring.data.redis.host=localhost
-spring.data.redis.port=6379
-spring.data.redis.password=your_redis_password
-spring.kafka.bootstrap-servers=localhost:29092
+spring.data.redis.port=
+spring.data.redis.password=
+spring.kafka.bootstrap-servers=localhost:
