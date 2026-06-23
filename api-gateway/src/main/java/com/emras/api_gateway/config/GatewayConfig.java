@@ -49,4 +49,15 @@ public class GatewayConfig {
                 .before(BeforeFilterFunctions.uri(services.getProductServiceUrl()))
                 .build();
     }
+    @Bean
+    public RouterFunction<ServerResponse> inventoryServiceRoutes() {
+        return GatewayRouterFunctions.route("inventory_service_route")
+                .route(
+                        RequestPredicates.path("/api/v1/inventory/**")
+                                .or(RequestPredicates.path("/api/v1/admin/inventory/**")),
+                        HandlerFunctions.http()
+                )
+                .before(BeforeFilterFunctions.uri(services.getInventoryServiceUrl()))
+                .build();
+    }
 }
