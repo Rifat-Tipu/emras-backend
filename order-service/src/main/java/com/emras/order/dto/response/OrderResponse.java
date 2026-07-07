@@ -1,0 +1,20 @@
+package com.emras.order.dto.response;
+import com.emras.order.entity.Order;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
+public record OrderResponse(
+        Long                          id,
+        Long                          userId,
+        Order.OrderStatus             status,
+        BigDecimal                    totalAmount,
+        BigDecimal                    discountAmount,
+        BigDecimal                    deliveryCharge,
+        String                        couponCode,
+        Order.PaymentMethod           paymentMethod,
+        String                        deliveryAddress,
+        String                        notes,
+        List<OrderItemResponse>        items,
+        List<OrderStatusHistoryResponse> statusHistory,
+        Instant                       createdAt
+) {}

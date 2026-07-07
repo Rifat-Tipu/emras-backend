@@ -9,8 +9,9 @@ import com.emras.product.entity.ProductVariant;
 import org.mapstruct.*;
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {CategoryMapper.class})
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
 public interface ProductMapper {
 
     @Mapping(target = "category",  source = "category")
@@ -29,18 +30,16 @@ public interface ProductMapper {
     ProductImageResponse toImageResponse(ProductImage image);
 
     default String getPrimaryImageUrl(Product product) {
-        // Extra defensive check: return null immediately if product or its image list is null
-        if (product == null || product.getImages() == null) {
+        if (product == null || product.getImages() == null || product.getImages().isEmpty()) {
             return null;
         }
         return product.getImages().stream()
-                // 1. Safely checks for 'true' without throwing NullPointerException if isPrimary is null
                 .filter(img -> Boolean.TRUE.equals(img.getIsPrimary()))
                 .findFirst()
-                // 2. Extracts the URL if a primary image was found
                 .map(ProductImage::getUrl)
-                // 3. Lazy fallback: This lambda expression runs ONLY if no primary image exists
-                .orElseGet(() -> product.getImages().isEmpty() ? null
-                        : product.getImages().get(0).getUrl());
+                .orElseGet(() -> product.getImages().stream()
+                        .findFirst()
+                        .map(ProductImage::getUrl)
+                        .orElse(null));
     }
 }

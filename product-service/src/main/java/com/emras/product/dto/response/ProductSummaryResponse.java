@@ -1,5 +1,5 @@
 package com.emras.product.dto.response;
-import com.emras.product.entity.Product;
+import com.emras.product.entity.ProductStatus;
 import java.math.BigDecimal;
 /** Lightweight version for listing pages — no variants or full description */
 public record ProductSummaryResponse(
@@ -9,7 +9,7 @@ public record ProductSummaryResponse(
         String                slug,
         BigDecimal            price,
         BigDecimal            discountPrice,
-        Product.ProductStatus status,
+        ProductStatus status,
         Boolean               featured,
         String                primaryImageUrl,
         String                categoryNameEn

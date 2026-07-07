@@ -1,0 +1,9 @@
+# Copy to application-local.properties and fill in real values
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/your_db
+spring.datasource.username=
+spring.datasource.password=
+spring.kafka.bootstrap-servers=localhost:29092
+
+feign.clients.product-service-url=http://localhost:8083
+feign.clients.user-service-url=http://localhost:8082

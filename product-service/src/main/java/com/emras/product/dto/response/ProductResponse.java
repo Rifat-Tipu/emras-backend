@@ -1,5 +1,5 @@
 package com.emras.product.dto.response;
-import com.emras.product.entity.Product;
+import com.emras.product.entity.ProductStatus;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -12,7 +12,7 @@ public record ProductResponse(
         String                      slug,
         BigDecimal                  price,
         BigDecimal                  discountPrice,
-        Product.ProductStatus       status,
+        ProductStatus status,
         Boolean                     featured,
         CategoryResponse            category,
         List<ProductVariantResponse> variants,
