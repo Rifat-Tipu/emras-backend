@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
+import com.emras.product.entity.ProductStatus;
 
 @Slf4j
 @Service
@@ -54,10 +55,10 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "products", key = "#id")
     public ProductResponse getProductById(Long id) {
-        Product product = productRepository.findByIdWithDetails(id)
-                .orElseThrow(() -> new ProductNotFoundException(ErrorMessages.PRODUCT_NOT_FOUND));
+        Product product = productRepository.findByIdWithVariants(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found: " + id));
+        productRepository.findByIdWithImages(id);
         return productMapper.toResponse(product);
     }
     @Override
@@ -65,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
     @Cacheable(value = "products", key = "'slug:' + #slug")
     public ProductResponse getProductBySlug(String slug) {
         Product product = productRepository
-                .findBySlugAndStatus(slug, Product.ProductStatus.ACTIVE)
+                .findBySlugAndStatus(slug, ProductStatus.DRAFT)
                 .orElseThrow(() -> new ProductNotFoundException(ErrorMessages.PRODUCT_NOT_FOUND));
         return productMapper.toResponse(product);
     }
@@ -84,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
                 .slug(request.slug())
                 .price(request.price())
                 .discountPrice(request.discountPrice())
-                .status(Product.ProductStatus.DRAFT)
+                .status(ProductStatus.DRAFT)
                 .featured(request.featured() != null ? request.featured() : false)
                 .build();
 
@@ -103,11 +104,9 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     @Transactional
-    @CacheEvict(value = "products", key = "#id")
     public ProductResponse updateProduct(Long id, CreateProductRequest request) {
-        Product product = productRepository.findByIdWithDetails(id)
+        Product product = productRepository.findByIdWithVariants(id)
                 .orElseThrow(() -> new ProductNotFoundException(ErrorMessages.PRODUCT_NOT_FOUND));
-
         product.setNameEn(request.nameEn());
         product.setNameBn(request.nameBn());
         product.setDescriptionEn(request.descriptionEn());
@@ -128,7 +127,6 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     @Transactional
-    @CacheEvict(value = "products", key = "#id")
     public void updateProductStatus(Long id, UpdateProductStatusRequest request) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(ErrorMessages.PRODUCT_NOT_FOUND));
@@ -138,18 +136,16 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     @Transactional
-    @CacheEvict(value = "products", key = "#id")
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(ErrorMessages.PRODUCT_NOT_FOUND));
-        product.setStatus(Product.ProductStatus.ARCHIVED);
+        product.setStatus(ProductStatus.ARCHIVED);
         productRepository.save(product);
         log.info("Product {} archived", id);
     }
     // ── Variants ──────────────────────────────────────────────────────────
     @Override
     @Transactional
-    @CacheEvict(value = "products", key = "#productId")
     public ProductVariantResponse addVariant(Long productId,
                                              CreateProductVariantRequest request) {
         Product product = productRepository.findById(productId)
@@ -173,7 +169,6 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     @Transactional
-    @CacheEvict(value = "products", key = "#productId")
     public void deleteVariant(Long productId, Long variantId) {
         ProductVariant variant = variantRepository.findById(variantId)
                 .orElseThrow(() -> new ProductNotFoundException(ErrorMessages.VARIANT_NOT_FOUND));
@@ -183,7 +178,6 @@ public class ProductServiceImpl implements ProductService {
     // ── Images ────────────────────────────────────────────────────────────
     @Override
     @Transactional
-    @CacheEvict(value = "products", key = "#productId")
     public ProductImageResponse addImage(Long productId, String url,
                                          String altText, Boolean isPrimary) {
         Product product = productRepository.findById(productId)
@@ -205,7 +199,6 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     @Transactional
-    @CacheEvict(value = "products", key = "#productId")
     public void deleteImage(Long productId, Long imageId) {
         ProductImage image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new ProductNotFoundException("Image not found."));

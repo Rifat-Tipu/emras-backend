@@ -60,4 +60,15 @@ public class GatewayConfig {
                 .before(BeforeFilterFunctions.uri(services.getInventoryServiceUrl()))
                 .build();
     }
+    @Bean
+    public RouterFunction<ServerResponse> orderServiceRoutes() {
+        return GatewayRouterFunctions.route("order_service_route")
+                .route(
+                        RequestPredicates.path("/api/v1/orders/**")
+                                .or(RequestPredicates.path("/api/v1/admin/orders/**")),
+                        HandlerFunctions.http()
+                )
+                .before(BeforeFilterFunctions.uri(services.getOrderServiceUrl()))
+                .build();
+    }
 }

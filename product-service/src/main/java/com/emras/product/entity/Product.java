@@ -2,8 +2,9 @@ package com.emras.product.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import com.emras.product.entity.ProductStatus;
 
 @Entity
 @Getter
@@ -49,12 +50,12 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<ProductVariant> variants = new ArrayList<>();
+    private Set<ProductVariant> variants = new HashSet<>();
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("displayOrder ASC")
     @Builder.Default
-    private List<ProductImage> images = new ArrayList<>();
-    public enum ProductStatus { DRAFT, ACTIVE, ARCHIVED }
+    private Set<ProductImage> images = new HashSet<>();
 }
