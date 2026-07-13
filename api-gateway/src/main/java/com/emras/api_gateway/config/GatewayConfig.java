@@ -24,6 +24,7 @@ import org.springframework.web.servlet.function.ServerResponse;
 @RequiredArgsConstructor
 public class GatewayConfig {
     private final ServiceUrlProperties services;
+
     @Bean
     public RouterFunction<ServerResponse> authServiceRoutes() {
         return GatewayRouterFunctions.route("auth_service_route")
@@ -31,6 +32,7 @@ public class GatewayConfig {
                 .before(BeforeFilterFunctions.uri(services.getAuthServiceUrl()))
                 .build();
     }
+
     @Bean
     public RouterFunction<ServerResponse> userServiceRoutes() {
         return GatewayRouterFunctions.route("user_service_route")
@@ -38,6 +40,7 @@ public class GatewayConfig {
                 .before(BeforeFilterFunctions.uri(services.getUserServiceUrl()))
                 .build();
     }
+
     @Bean
     public RouterFunction<ServerResponse> productServiceRoutes() {
         return GatewayRouterFunctions.route("product_service_route")
@@ -49,6 +52,7 @@ public class GatewayConfig {
                 .before(BeforeFilterFunctions.uri(services.getProductServiceUrl()))
                 .build();
     }
+
     @Bean
     public RouterFunction<ServerResponse> inventoryServiceRoutes() {
         return GatewayRouterFunctions.route("inventory_service_route")
@@ -60,6 +64,7 @@ public class GatewayConfig {
                 .before(BeforeFilterFunctions.uri(services.getInventoryServiceUrl()))
                 .build();
     }
+
     @Bean
     public RouterFunction<ServerResponse> orderServiceRoutes() {
         return GatewayRouterFunctions.route("order_service_route")
@@ -69,6 +74,19 @@ public class GatewayConfig {
                         HandlerFunctions.http()
                 )
                 .before(BeforeFilterFunctions.uri(services.getOrderServiceUrl()))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> paymentServiceRoutes() {
+        return GatewayRouterFunctions.route("payment_service_route")
+                .route(
+                        RequestPredicates.path("/api/v1/payments/**")
+                                .or(RequestPredicates.path("/api/v1/admin/payments/**"))
+                                .or(RequestPredicates.path("/api/v1/webhooks/**")),
+                        HandlerFunctions.http()
+                )
+                .before(BeforeFilterFunctions.uri(services.getPaymentServiceUrl()))
                 .build();
     }
 }
