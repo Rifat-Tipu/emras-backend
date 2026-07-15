@@ -89,4 +89,14 @@ public class GatewayConfig {
                 .before(BeforeFilterFunctions.uri(services.getPaymentServiceUrl()))
                 .build();
     }
+    @Bean
+    public RouterFunction<ServerResponse> notificationServiceRoutes() {
+        return GatewayRouterFunctions.route("notification_service_route")
+                .route(
+                        RequestPredicates.path("/api/v1/notifications/**"),
+                        HandlerFunctions.http()
+                )
+                .before(BeforeFilterFunctions.uri(services.getNotificationServiceUrl()))
+                .build();
+    }
 }

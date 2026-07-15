@@ -1,0 +1,8 @@
+spring.datasource.url=jdbc:postgresql://localhost:5432/your_db
+spring.datasource.username=
+spring.datasource.password=
+spring.kafka.bootstrap-servers=localhost:29092
+spring.mail.host=sandbox.smtp.mailtrap.io
+spring.mail.port=2525
+spring.mail.username=your_mailtrap_username
+spring.mail.password=your_mailtrap_password
